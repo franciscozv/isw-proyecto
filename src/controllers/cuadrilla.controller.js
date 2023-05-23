@@ -57,6 +57,7 @@ const deleteCuadrilla = async (req,res) => {
 
 
 module.exports = {
-    createCuadrilla
+    createCuadrilla,
+    deleteCuadrilla
 }
 

@@ -3,11 +3,16 @@ const mongoose = require("mongoose");
 /*Nombre: Cuadrilla + número
 Ej: Cuadrilla 1, Cuadrilla 2, etc. */
 const cuadrillaSchema = new mongoose.Schema({
-  nombre: {
+
+  nombreCuadrilla: {
     type: String,
     require: true,
     minLength: 1,
     maxLength: 14,
+  },
+  numeroCuadrilla: {
+    type: Number,
+    require: true
   },
   jefeCuadrilla: {
     type: mongoose.Schema.Types.ObjectId,

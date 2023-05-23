@@ -2,7 +2,8 @@
 // Importa el modulo 'mongoose' para crear la conexion a la base de datos
 const mongoose = require("mongoose");
 
-// Crea el esquema de la coleccion 'usuarios'
+/* Crea el esquema de la coleccion 'usuarios',
+que representa a los clientes de la API*/
 const userSchema = new mongoose.Schema({
   name: {
     type: String,

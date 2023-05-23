@@ -2,7 +2,7 @@
 /* eslint-disable no-console */
 const Solicitud = require("../models/solicitud.model.js");
 const Cuadrilla = require("../models/cuadrilla.model.js");
-const Seleccionado = require("../models/seleccionado.model.js");
+const Seleccionado = require("../models/Brigadista.model.js");
 
 // el usuario podra enviar una solicitud
 // obs: el usuario debe estar seleccionado para que ingrese la solicitud.

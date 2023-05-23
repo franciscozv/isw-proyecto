@@ -2,10 +2,15 @@ const mongoose = require("mongoose");
 
 
 const seleccionadoSchema = new mongoose.Schema({
-    // otro datos del brigadista
+    userId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+        required: true,
+    },
     cuadrillaId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Cuadrilla",
+        required: true,
     },
 });
 

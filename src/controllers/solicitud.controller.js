@@ -4,8 +4,6 @@ const Solicitud = require("../models/solicitud.model.js");
 const Cuadrilla = require("../models/cuadrilla.model.js");
 const Seleccionado = require("../models/seleccionado.model.js");
 
-// const emailer = require("../config/mailer.js");
-
 // el usuario podra enviar una solicitud
 // obs: el usuario debe estar seleccionado para que ingrese la solicitud.
 
@@ -28,10 +26,10 @@ const postRequest = async (req, res) => {
             return res.status(400).json({ message: "tienes una solicitud pendiente" });
         }
         // Verificar si el usuario ya se encuentra en la cuadrilla seleccionada
-        // const seleccionado = await Seleccionado.findById(userId);
-        // if (seleccionado.cuadrillaId == cambioCuadrillaId) {
-        //     return res.status(400).send({ message: "ya te encuentras en esa cuadrilla" });
-        // }
+        const seleccionado = await Seleccionado.findById(userId);
+        if (seleccionado.cuadrillaId == cambioCuadrillaId) {
+            return res.status(400).send({ message: "ya te encuentras en esa cuadrilla" });
+        }
         // Crear la solicitud de cambio de grupo
         const solicitud = new Solicitud({
             userId,
@@ -39,7 +37,6 @@ const postRequest = async (req, res) => {
             description,
         });
         await solicitud.save();
-        // emailer.sendMail(seleccionado);
         res.status(201).json({ message: "se ha enviado la solicitud" });
     } catch (error) {
         res.status(400).json({ message: "Ha ocurrido un error al procesar la solicitud" });

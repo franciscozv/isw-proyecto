@@ -9,8 +9,9 @@ const solicitudRoutes = require("./solicitud.routes.js");
 const userRoutes = require("./user.routes.js");
 // Importa el enrutador de autenticación
 const authRoutes = require("./auth.routes.js");
+// Importa el enrutador de asistencias
+const asistenciaRoutes = require("./asistencia.routes.js");
 // Importa el middleware de autenticación
-
 const authMiddleware = require("../middlewares/authe.middleware.js");
 
 // Crea una instancia del enrutador
@@ -26,6 +27,9 @@ router.use("/auth", authRoutes);
 // Define las rutas para la solicitud de cambio de cuadrilla
 // /api/cambio-cuadrilla
 router.use("/cambio-cuadrilla", authMiddleware.verifyToken, solicitudRoutes);
+
+// Define las rutas para la asistencia
+router.use("/asistencias", authMiddleware.verifyToken, asistenciaRoutes);
 
 // ----------------------
 // Exporta el enrutador

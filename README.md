@@ -39,3 +39,6 @@ De los postulantes además se guarda o se pide:
 
 Cuando un postulante queda seleccionado como brigadista, se crea una instancia del modelo Brigadista y se copian los datos relevantes del postulante. Luego de ello se elimina la instancia del postulante para evitar la duplicidad de datos y el almacenar datos redundantes
 
+
+Integrantes:
+

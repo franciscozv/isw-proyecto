@@ -39,6 +39,7 @@ De los postulantes además se guarda o se pide:
 
 Cuando un postulante queda seleccionado como brigadista, se crea una instancia del modelo Brigadista y se copian los datos relevantes del postulante. Luego de ello se elimina la instancia del postulante para evitar la duplicidad de datos y el almacenar datos redundantes
 
+Cuando se crea una instancia de posulante, se crea además una instancia de user, de forma que el postulante tenga un usuario y contraseña para entrar a la plataforma y pueda rellenar los formularios y proporcionar los documentos. Si la solicitud del postulante es rechazada, la instancia de postulante y su usuario asociado es eliminada. Cuando es aceptada, se conserva el usuario y se vincula a la instancia de brigadista.
 
 Integrantes:
 

@@ -16,51 +16,51 @@ const brigadistaSchema = new mongoose.Schema({
         type: String,
         required: true,
         minLength: 1,
-        maxLength: 100
+        maxLength: 100,
     },
     rut: {
         type: String,
-        required: true
+        required: true,
     },
     fechaNacimiento: {
         type: Date,
-        required: true
+        required: true,
     },
     direccion: {
         type: String,
         required: true,
         minLength: 1,
-        maxLength: 100
+        maxLength: 100,
     },
     correo: {
         type: String,
         required: true,
         minLength: 10,
-        maxLength: 100
+        maxLength: 100,
     },
     telefono: {
         type: Number,
         required: true,
         minLength: 9,
-        maxLength: 15
+        maxLength: 15,
     },
     telefonoFamiliares: {
         type: Number,
         required: true,
         minLength: 9,
-        maxLength: 15
+        maxLength: 15,
     },
     capacitaciones: {
         type: String,
         required: true,
         minLength: 1,
-        maxLength: 100
+        maxLength: 100,
     },
     antecedentesSalud: {
         type: String,
         required: true,
         minLength: 1,
-        maxLength: 100
+        maxLength: 100,
     },
 });
 

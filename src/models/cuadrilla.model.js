@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-/*Nombre: Cuadrilla + número
+/* Nombre: Cuadrilla + número
 Ej: Cuadrilla 1, Cuadrilla 2, etc. */
 const cuadrillaSchema = new mongoose.Schema({
 
@@ -12,7 +12,7 @@ const cuadrillaSchema = new mongoose.Schema({
   },
   numeroCuadrilla: {
     type: Number,
-    require: true
+    require: true,
   },
   jefeCuadrilla: {
     type: mongoose.Schema.Types.ObjectId,

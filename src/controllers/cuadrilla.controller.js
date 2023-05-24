@@ -1,7 +1,7 @@
-const Cuadrilla = require('../models/Cuadrilla.model');
-const Brigadista = require('../models/Brigadista.model');
+/* eslint-disable require-jsdoc */
+  const Cuadrilla = require("../models/cuadrilla.model.js");
 
-//Requerimiento: Asignación de cuadrillas
+ // Requerimiento: Asignación de cuadrillas
 
 const createCuadrilla = async (req, res) => {
   try {
@@ -36,28 +36,26 @@ const createCuadrilla = async (req, res) => {
   }
 };
 
-const deleteCuadrilla = async (req,res) => {
+const deleteCuadrilla = async (req, res) => {
     try {
         const cuadrillaId = req.params.cuadrillaId;
-    
+
         // Verificar si la cuadrilla existe
         const cuadrilla = await Cuadrilla.findById(cuadrillaId);
         if (!cuadrilla) {
-          return res.status(404).json({ error: 'Cuadrilla no encontrada' });
+          return res.status(404).json({ error: "Cuadrilla no encontrada" });
         }
-    
         // Eliminar la cuadrilla
         await Cuadrilla.findByIdAndRemove(cuadrillaId);
-    
-        res.status(200).json({ message: 'Cuadrilla eliminada correctamente' });
+
+        res.status(200).json({ message: "Cuadrilla eliminada correctamente" });
       } catch (error) {
-        res.status(500).json({ error: 'Error al eliminar la cuadrilla' });
+        res.status(500).json({ error: "Error al eliminar la cuadrilla" });
       }
-}
+};
 
 
 module.exports = {
     createCuadrilla,
-    deleteCuadrilla
-}
-
+    deleteCuadrilla,
+};

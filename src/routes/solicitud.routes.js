@@ -6,8 +6,8 @@ const router = express.Router();
 
 // el usuario podra enviar una nueva solicitud
 router.post("/", solicitudController.postRequest);
-// el reclutador podra ver todos las solicitudes
-router.get("/", authoMiddleware.isReclutador, solicitudController.getRequests);
+// el admin podra ver todos las solicitudes
+router.get("/", authoMiddleware.isAdmin, solicitudController.getRequests);
 // el reclutador podra ver una solicitud
 router.get("/:id", authoMiddleware.isReclutador, solicitudController.getRequestById);
 // el reclutador podra aceptar una solicitud

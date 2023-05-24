@@ -26,7 +26,17 @@ const updateCuadrillaBrigadista = async (req = request, res = response) => {
         res.status(500).json({ message: 'Error en el servidor.' });
     }
 };
+const createBrigadista = async (req, res) => {
+    try {
+        const brigadista = new Brigadista(req.body);
+        const brigadistaSaved = await brigadista.save();
+        res.json({ brigadistaSaved });
+    } catch (error) {
+        res.status(500).json({ message: 'Error en el servidor.' });
+    }
+}
 
 module.exports = {
     updateCuadrillaBrigadista,
+    createBrigadista,
 };

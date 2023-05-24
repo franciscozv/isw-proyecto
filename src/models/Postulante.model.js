@@ -23,32 +23,31 @@ const postulanteSchema = new mongoose.Schema({
     },
     direccion: {
         type: String,
-        required: true,
+        required: false,
         minLength: 1,
         maxLength: 100
     },
     correo: {
         type: String,
-        required: true,
+        required: false,
         minLength: 10,
         maxLength: 100
     },
     telefono: {
         type: Number,
-        required: true,
+        required: false,
         minLength: 9,
         maxLength: 15
     },
-
     capacitaciones: {
         type: String,
-        required: true,
+        required: false,
         minLength: 1,
         maxLength: 100
     },
     antecedentesSalud: {
         type: String,
-        required: true,
+        required: false,
         minLength: 1,
         maxLength: 100
     },

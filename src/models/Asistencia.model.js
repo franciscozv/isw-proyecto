@@ -1,22 +1,25 @@
-const mongoose = require("mongoose");
+const { Schema, model, mongoose } = require("mongoose");
 
-const asistenciaSchema = new mongoose.Schema({
-    brigadista: {
+const AsistenciaSchema = new Schema({
+  fecha: {
+    type: String,
+    required: [true, "La fecha es obligatoria,"],
+    unique: true,
+  },
+  brigadistas: [
+    {
+      brigadista: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Brigadista",
         required: true,
-    },
-    cuadrilla: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Cuadrilla",
+      },
+      estado: {
+        type: String,
+        enum: ["presente", "ausente"],
         required: true,
+      },
     },
-    fecha: {
-        type: Date,
-        required: true
-    },
-})
+  ],
+});
 
-const Asistencia = mongoose.model("Asistencia", asistenciaSchema);
-
-module.exports = Asistencia
+module.exports = model("Asistencia", AsistenciaSchema);

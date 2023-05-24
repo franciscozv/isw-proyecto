@@ -6,6 +6,11 @@ const solicitudSchema = new mongoose.Schema({
         ref: "User",
         required: true,
     },
+    brigadistaId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Brigadista",
+        required: true,
+    },
     cambioCuadrillaId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Cuadrilla",
@@ -23,7 +28,6 @@ const solicitudSchema = new mongoose.Schema({
         type: String,
         enum: ["pending", "approved", "rejected"],
         default: "pending",
-        required: true,
     },
     resolveDate: {
         type: Date,

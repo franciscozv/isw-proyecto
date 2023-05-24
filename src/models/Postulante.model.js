@@ -11,45 +11,45 @@ const postulanteSchema = new mongoose.Schema({
         type: String,
         required: true,
         minLength: 1,
-        maxLength: 100
+        maxLength: 100,
     },
     rut: {
         type: String,
-        required: true
+        required: true,
     },
     fechaNacimiento: {
         type: Date,
-        required: true
+        required: true,
     },
     direccion: {
         type: String,
         required: false,
         minLength: 1,
-        maxLength: 100
+        maxLength: 100,
     },
     correo: {
         type: String,
         required: false,
         minLength: 10,
-        maxLength: 100
+        maxLength: 100,
     },
     telefono: {
         type: Number,
         required: false,
         minLength: 9,
-        maxLength: 15
+        maxLength: 15,
     },
     capacitaciones: {
         type: String,
         required: false,
         minLength: 1,
-        maxLength: 100
+        maxLength: 100,
     },
     antecedentesSalud: {
         type: String,
         required: false,
         minLength: 1,
-        maxLength: 100
+        maxLength: 100,
     },
 });
 

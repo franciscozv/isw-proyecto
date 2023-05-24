@@ -9,8 +9,13 @@ const solicitudRoutes = require("./solicitud.routes.js");
 const userRoutes = require("./user.routes.js");
 // Importa el enrutador de autenticación
 const authRoutes = require("./auth.routes.js");
+// Importa el enrutador de asistencias
+const asistenciaRoutes = require("./asistencia.routes.js");
+// Importa el enrutador de brigadistas
+const brigadistaRoutes = require("./brigadista.routes.js");
+// Importa el enrutador de cuadrillas
+const cuadrillaRoutes = require("./cuadrilla.routes.js");
 // Importa el middleware de autenticación
-
 const authMiddleware = require("../middlewares/authe.middleware.js");
 
 // Crea una instancia del enrutador
@@ -27,6 +32,14 @@ router.use("/auth", authRoutes);
 // /api/cambio-cuadrilla
 router.use("/cambio-cuadrilla", authMiddleware.verifyToken, solicitudRoutes);
 
+// Define las rutas para la asistencia
+router.use("/asistencias", authMiddleware.verifyToken, asistenciaRoutes);
+
+// Define las rutas para brigadistas
+router.use("/brigadistas", authMiddleware.verifyToken, brigadistaRoutes);
+
+// Define las rutas para las cuadrillas
+router.use("/cuadrilla", authMiddleware.verifyToken, cuadrillaRoutes);
 // ----------------------
 // Exporta el enrutador
 module.exports = router;

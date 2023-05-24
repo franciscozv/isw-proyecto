@@ -11,7 +11,7 @@ const postRequest = async (req, res) => {
     try {
         // Obtenemos el Id del usuario
         const { userId } = req;
-        const { cambioCuadrillaId, description } = req.body;
+        const { brigadistaId, cambioCuadrillaId, description } = req.body;
         // Verificar si la cuadrilla especificada existe en la base de datos
         const cuadrilla = await Cuadrilla.findById(cambioCuadrillaId);
         if (!cuadrilla) {
@@ -19,20 +19,25 @@ const postRequest = async (req, res) => {
         }
         // Verificar si ya existe una solicitud de cambio de cuadrilla pendiente para el usuario
         const existeSolicitudPendiente = await Solicitud.exists({
-            userId: userId,
+            brigadistaId,
             requestStatus: "pending",
         });
         if (existeSolicitudPendiente) {
             return res.status(400).json({ message: "tienes una solicitud pendiente" });
         }
+        // verificar si el usuario tiene asignada una cuadrilla
+        const seleccionado = await Seleccionado.findOne({ _id: brigadistaId });
+        if (!seleccionado.cuadrillaId) {
+            return res.status(400).send({ message: "no tienes asignada una cuadrilla" });
+        }
         // Verificar si el usuario ya se encuentra en la cuadrilla seleccionada
-        const seleccionado = await Seleccionado.findById(userId);
         if (seleccionado.cuadrillaId == cambioCuadrillaId) {
             return res.status(400).send({ message: "ya te encuentras en esa cuadrilla" });
         }
         // Crear la solicitud de cambio de grupo
         const solicitud = new Solicitud({
             userId,
+            brigadistaId,
             cambioCuadrillaId,
             description,
         });
@@ -40,6 +45,17 @@ const postRequest = async (req, res) => {
         res.status(201).json({ message: "se ha enviado la solicitud" });
     } catch (error) {
         res.status(400).json({ message: "Ha ocurrido un error al procesar la solicitud" });
+    }
+};
+
+// el administrador podra ver todos las solicitudes
+const getRequests = async (req, res) => {
+    try {
+        const solicitudes = await Solicitud.find();
+        res.status(200).json(solicitudes);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Error al obtener las solicitudes" });
     }
 };
 
@@ -60,36 +76,7 @@ const getRequestById = async (req, res) => {
     }
 };
 
-// el usuario podra ver el historial de sus solicitudes
-const getRequestsUser = async (req, res) => {
-    try {
-        const { userId } = req;
-        // Validación del ID de usuario
-        const requests = await Solicitud.find({ userId: userId });
-
-         // Verificar si existen solicitudes asociadas al usuario
-        if (!requests) {
-            return res.status(204).json({ message: "No existen solicitudes asociadas al usuario" });
-        }
-        res.status(200).json(requests);
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: "Error al obtener las solicitudes del usuario" });
-    }
-};
-
-// el reclutador podra ver todos las solicitudes
-const getRequests = async (req, res) => {
-    try {
-        const solicitudes = await Solicitud.find();
-        res.status(200).json(solicitudes);
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: "Error al obtener las solicitudes" });
-    }
-};
-
-// el reclutador podra aceptar una solicitud
+// el administrador podra aceptar una solicitud
 const acceptRequest = async (req, res) => {
     try {
         const { id } = req.params;
@@ -110,7 +97,7 @@ const acceptRequest = async (req, res) => {
         await solicitud.save();
 
         // Actualizar el documento de "Seleccionado" con la nueva cuadrilla
-        const seleccionado = await Seleccionado.findOne({ _id: solicitud.userId });
+        const seleccionado = await Seleccionado.findOne({ _id: solicitud.brigadistaId });
         if (seleccionado) {
             seleccionado.cuadrillaId = solicitud.cambioCuadrillaId;
             await seleccionado.save();
@@ -125,7 +112,7 @@ const acceptRequest = async (req, res) => {
     }
 };
 
-// el reclutador podra rechazar una solicitud
+// el administrador podra rechazar una solicitud
 const rejectRequest = async (req, res) => {
     try {
         // obtener el ID de la solicitud desde los parametros de la peticion
@@ -139,15 +126,33 @@ const rejectRequest = async (req, res) => {
         solicitud.requestStatus = "rejected";
         solicitud.resolveDate = new Date();
         await solicitud.save();
-        res.status(200).json({ message: "la solicitud ha sido procesada exitosamente" });
+        res.status(200).json({ message: "la solicitud ha sido rechazada exitosamente" });
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: "Error al rechazar la solicitud de cambio de grupo" });
     }
 };
 
+// el brigadista podra ver el historial de sus solicitudes
+const getRequestsUser = async (req, res) => {
+    try {
+        const { id } = req.params;
+        // Validación del ID de usuario
+        const requests = await Solicitud.find({ _id: id });
+
+         // Verificar si existen solicitudes asociadas al usuario
+        if (!requests) {
+            return res.status(204).json({ message: "No existen solicitudes asociadas al usuario" });
+        }
+        res.status(200).json(requests);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Error al obtener las solicitudes del usuario" });
+    }
+};
+
 // lista de todas las solicitudes asociadas a un cadrilla especifica
-const getRequestByGroup = async (req, res) => {
+const getByGroup = async (req, res) => {
     try {
         const { id } = req.params;
         const solicitudes = await Solicitud.find({ cambioCuadrillaId: id });
@@ -156,7 +161,7 @@ const getRequestByGroup = async (req, res) => {
         }
         res.status(200).json(solicitudes);
     } catch (error) {
-        res.status(500).json({ message: "Error al rechazar la solicitud de cambio de grupo" });
+        res.status(500).json({ message: "Error al obtener solicitudes de la cuadrilla" });
     }
 };
 
@@ -167,5 +172,5 @@ module.exports = {
     rejectRequest,
     acceptRequest,
     getRequestsUser,
-    getRequestByGroup,
+    getByGroup,
 };
